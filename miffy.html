@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/three@0.137.4/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
+    <script>
+      // ページの読み込みを待つ
+      window.addEventListener('DOMContentLoaded', init);
+
+      function init() {
+        // サイズを指定
+        const width = 1024;  // 960
+        const height = 768;  // 540
+
+        // レンダラーを作成
+        const canvasElement = document.querySelector('#myCanvas');
+        const renderer = new THREE.WebGLRenderer({
+          canvas: canvasElement,
+        });
+        renderer.setSize(width, height);
+        renderer.setClearColor(0xeee7e0, 1.0);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // カメラを作成
+        camera = new THREE.PerspectiveCamera( 45 , width / height , 1 , 10000 );
+        camera.position.x = 300;  // 見る位置 x
+        camera.position.y = 0;  // 見る位置 y
+        camera.position.z = 1000;  // 見る位置 z
+        camera.up.x = 0;
+        camera.up.y = 0;
+        camera.up.z = 1;
+        camera.lookAt( {x:0, y:0, z:0 } );  // 見る方向
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera, canvasElement);
+
+
+  /* ------------------------------------------------------------------------------ */
+
+
+        /* テーブルを作成 */
+        const geometry = new THREE.PlaneGeometry(2000, 2000);
+        // 画像を読み込む
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load('images/wood.jpg');
+        // マテリアルにテクスチャーを設定
+        const material = new THREE.MeshBasicMaterial({
+          map: texture
+        });
+        // メッシュを作成
+        const mesh = new THREE.Mesh(geometry, material);
+        // 3D空間にメッシュを追加
+        scene.add(mesh);
+
+
+        /* お皿を作成 */
+        const geometry2 = new THREE.CylinderGeometry(300, 120, 50, 50, 30);
+        // 画像を読み込む
+        const loader2 = new THREE.TextureLoader();
+        const texture2 = loader.load('images/dishes.jpg');
+        // マテリアルにテクスチャーを設定
+        const material2 = new THREE.MeshBasicMaterial({
+          map: texture2
+        });
+        // メッシュを作成
+        const mesh2 = new THREE.Mesh(geometry2, material2);
+        // 3D空間にメッシュを追加
+        scene.add(mesh2);
+        // 位置
+        mesh2.position.set(0, 0, 25);
+        mesh2.rotation.set(1.57, 0, 0);
+
+
+        /* パンを作成 */
+        const geometry3 = new THREE.BoxGeometry(360, 50, 320);
+        // 画像を読み込む
+        const loader3 = new THREE.TextureLoader();
+        const texture3 = loader.load('images/pan.jpg');
+        // マテリアルにテクスチャーを設定
+        const material3 = new THREE.MeshBasicMaterial({
+          map: texture3
+        });
+        // メッシュを作成
+        const mesh3 = new THREE.Mesh(geometry3, material3);
+        // 3D空間にメッシュを追加
+        scene.add(mesh3);
+        // 位置
+        mesh3.position.set(10, 0, 75);
+        mesh3.rotation.set(1.57, 0, 0);
+
+
+        /* ハムを作成 */
+        const geometry4 = new THREE.CylinderGeometry(150, 150, 5, 50);
+        // 画像を読み込む
+        const loader4 = new THREE.TextureLoader();
+        const texture4 = loader.load('images/hamu.jpg');
+        // マテリアルにテクスチャーを設定
+        const material4 = new THREE.MeshBasicMaterial({
+          map: texture4
+        });
+        // メッシュを作成
+        const mesh4 = new THREE.Mesh(geometry4, material4);
+        // 3D空間にメッシュを追加
+        scene.add(mesh4);
+        // 位置
+        mesh4.position.set(25, 0, 100);
+        mesh4.rotation.set(1.57, 0, 0);
+
+
+        /* 顔(左)を作成 */
+        const geometry5_l = new THREE.CylinderGeometry( 70, 75, 10, 30 );
+        // 画像を読み込む
+        const loader5_l = new THREE.TextureLoader();
+        const texture5_l = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material5_l = new THREE.MeshBasicMaterial({
+          map: texture5_l
+        });
+        // メッシュを作成
+        const mesh5_l = new THREE.Mesh(geometry5_l, material5_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh5_l);
+        // 位置
+        mesh5_l.position.set(-50, -12, 108);
+        mesh5_l.rotation.set(1.57, 0, 0);
+
+
+        /* 顔(右)を作成 */
+        const geometry5_r = new THREE.CylinderGeometry( 70, 75, 10, 30 );
+        // 画像を読み込む
+        const loader5_r = new THREE.TextureLoader();
+        const texture5_r = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material5_r = new THREE.MeshBasicMaterial({
+          map: texture5_r
+        });
+        // メッシュを作成
+        const mesh5_r = new THREE.Mesh(geometry5_r, material5_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh5_r);
+        // 位置
+        mesh5_r.position.set(-50, 12, 108);
+        mesh5_r.rotation.set(1.57, 0, 0);
+
+
+        /* 目玉焼きの左(白身部分)を作成 */
+        const geometry6_l = new THREE.CylinderGeometry( 75, 80, 13, 30 );
+        // 画像を読み込む
+        const loader6_l = new THREE.TextureLoader();
+        const texture6_l = loader.load('images/shiromi.jpg');
+        // マテリアルにテクスチャーを設定
+        const material6_l = new THREE.MeshBasicMaterial({
+          map: texture6_l
+        });
+        // メッシュを作成
+        const mesh6_l = new THREE.Mesh(geometry6_l, material6_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh6_l);
+        // 位置
+        mesh6_l.position.set(80, -50, 107);
+        mesh6_l.rotation.set(1.57, 0, 0);
+
+
+        /* 目玉焼きの右(白身部分)を作成 */
+        const geometry6_r = new THREE.CylinderGeometry( 90, 95, 12, 30 );
+        // 画像を読み込む
+        const loader6_r = new THREE.TextureLoader();
+        const texture6_r = loader.load('images/shiromi.jpg');
+        // マテリアルにテクスチャーを設定
+        const material6_r = new THREE.MeshBasicMaterial({
+          map: texture6_r
+        });
+        // メッシュを作成
+        const mesh6_r = new THREE.Mesh(geometry6_r, material6_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh6_r);
+        // 位置
+        mesh6_r.position.set(80, 40, 107);
+        mesh6_r.rotation.set(1.57, 0, 0);
+
+
+        /* 目玉焼きの黄身部分を作成 */
+        const geometry7 = new THREE.SphereGeometry(60, 40, 40, 0, 2*Math.PI, 0, Math.PI/2);
+        // 画像を読み込む
+        const loader7 = new THREE.TextureLoader();
+        const texture7 = loader.load('images/kimi.jpg');
+        // マテリアルにテクスチャーを設定
+        const material7 = new THREE.MeshBasicMaterial({
+          map: texture7
+        });
+        // メッシュを作成
+        const mesh7 = new THREE.Mesh(geometry7, material7);
+        // 3D空間にメッシュを追加
+        scene.add(mesh7);
+        // 位置
+        mesh7.position.set(80, 0, 80);
+        mesh7.rotation.set(1.57, 0, 0);
+
+
+        /* 左耳(下側)を作成 */
+        const geometry8_l = new THREE.CylinderGeometry( 23, 13, 50, 10, 5, false, 0, Math.PI );
+        // 画像を読み込む
+        const loader8_l = new THREE.TextureLoader();
+        const texture8_l = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material8_l = new THREE.MeshBasicMaterial({
+          map: texture8_l
+        });
+        // メッシュを作成
+        const mesh8_l = new THREE.Mesh(geometry8_l, material8_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh8_l);
+        // 位置
+        mesh8_l.position.set(-145, -22, 105);
+        mesh8_l.rotation.set(1.57, 0.25, 1.57);
+
+
+        /* 左耳(上側)を作成 */
+        const geometry8_ll = new THREE.SphereGeometry(24, 20, 20, 0, 2*Math.PI, 0, Math.PI/2);
+        // 画像を読み込む
+        const loader8_ll = new THREE.TextureLoader();
+        const texture8_ll = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material8_ll = new THREE.MeshBasicMaterial({
+          map: texture8_ll
+        });
+        // メッシュを作成
+        const mesh8_ll = new THREE.Mesh(geometry8_ll, material8_ll);
+        // 3D空間にメッシュを追加
+        scene.add(mesh8_ll);
+        // 位置
+        mesh8_ll.position.set(-170, -27, 105);
+        mesh8_ll.rotation.set(1.57, 0, 0);
+
+
+        /* 右耳(下側)を作成 */
+        const geometry8_r = new THREE.CylinderGeometry( 23, 13, 50, 10, 5, false, 0, Math.PI );
+        // 画像を読み込む
+        const loader8_r = new THREE.TextureLoader();
+        const texture8_r = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material8_r = new THREE.MeshBasicMaterial({
+          map: texture8_r
+        });
+        // メッシュを作成
+        const mesh8_r = new THREE.Mesh(geometry8_r, material8_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh8_r);
+        // 位置
+        mesh8_r.position.set(-145, 22, 105);
+        mesh8_r.rotation.set(1.57, -0.25, 1.57);
+
+
+        /* 右耳(上側)を作成 */
+        const geometry8_rr = new THREE.SphereGeometry(24, 20, 20, 0, 2*Math.PI, 0, Math.PI/2);
+        // 画像を読み込む
+        const loader8_rr = new THREE.TextureLoader();
+        const texture8_rr = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material8_rr = new THREE.MeshBasicMaterial({
+          map: texture8_rr
+        });
+        // メッシュを作成
+        const mesh8_rr = new THREE.Mesh(geometry8_rr, material8_rr);
+        // 3D空間にメッシュを追加
+        scene.add(mesh8_rr);
+        // 位置
+        mesh8_rr.position.set(-170, 27, 105);
+        mesh8_rr.rotation.set(1.57, 0, 0);
+
+
+        /* 左目を作成 */
+        const geometry9_l = new THREE.RingGeometry(7, 10, 20, 20, Math.PI*(1/6), Math.PI*(2/3));
+        // 画像を読み込む
+        const loader9_l = new THREE.TextureLoader();
+        const texture9_l = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material9_l = new THREE.MeshBasicMaterial({
+          map: texture9_l
+        });
+        // メッシュを作成
+        const mesh9_l = new THREE.Mesh(geometry9_l, material9_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh9_l);
+        // 位置
+        mesh9_l.position.set(-35, -35, 115);
+        mesh9_l.rotation.set(0, 0, -1.57);
+
+
+        /* 右目を作成 */
+        const geometry9_r = new THREE.RingGeometry(7, 10, 20, 20, Math.PI*(1/6), Math.PI*(2/3));
+        // 画像を読み込む
+        const loader9_r = new THREE.TextureLoader();
+        const texture9_r = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material9_r = new THREE.MeshBasicMaterial({
+          map: texture9_r
+        });
+        // メッシュを作成
+        const mesh9_r = new THREE.Mesh(geometry9_r, material9_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh9_r);
+        // 位置
+        mesh9_r.position.set(-35, 35, 115);
+        mesh9_r.rotation.set(0, 0, -1.57);
+
+
+        /* 口①を作成 */
+        const geometry10_l = new THREE.PlaneGeometry(20, 3);
+        // 画像を読み込む
+        const loader10_l = new THREE.TextureLoader();
+        const texture10_l = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material10_l = new THREE.MeshBasicMaterial({
+          map: texture10_l
+        });
+        // メッシュを作成
+        const mesh10_l = new THREE.Mesh(geometry10_l, material10_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh10_l);
+        // 位置
+        mesh10_l.position.set(-7, 0, 115);
+        mesh10_l.rotation.set(0, 0, 1.2);
+
+
+        /* 口②を作成 */
+        const geometry10_r = new THREE.PlaneGeometry(20, 3);
+        // 画像を読み込む
+        const loader10_r = new THREE.TextureLoader();
+        const texture10_r = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material10_r = new THREE.MeshBasicMaterial({
+          map: texture10_r
+        });
+        // メッシュを作成
+        const mesh10_r = new THREE.Mesh(geometry10_r, material10_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh10_r);
+        // 位置
+        mesh10_r.position.set(-7, 0, 115);
+        mesh10_r.rotation.set(0, 0, -1.2);
+
+
+        /* ほっぺ(左①)を作成 */
+        const geometry11_l = new THREE.CylinderGeometry(7, 7, 2, 20);
+        // マテリアルを作成
+        const material11_l = new THREE.MeshBasicMaterial({color: 0xffe4e1});
+        // メッシュを作成
+        const mesh11_l = new THREE.Mesh(geometry11_l, material11_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh11_l);
+        // 位置
+        mesh11_l.position.set(-15, -50, 115);
+        mesh11_l.rotation.set(Math.PI/2, 0, 0);
+
+
+        /* ほっぺ(左②)を作成 */
+        const geometry11_ll = new THREE.CylinderGeometry(7, 7, 2, 20);
+        // マテリアルを作成
+        const material11_ll = new THREE.MeshBasicMaterial({color: 0xffe4e1});
+        // メッシュを作成
+        const mesh11_ll = new THREE.Mesh(geometry11_ll, material11_ll);
+        // 3D空間にメッシュを追加
+        scene.add(mesh11_ll);
+        // 位置
+        mesh11_ll.position.set(-15, -47, 115);
+        mesh11_ll.rotation.set(Math.PI/2, 0, 0);
+
+
+        /* ほっぺ(右①)を作成 */
+        const geometry11_r = new THREE.CylinderGeometry(7, 7, 2, 20);
+        // マテリアルを作成
+        const material11_r = new THREE.MeshBasicMaterial({color: 0xffe4e1});
+        // メッシュを作成
+        const mesh11_r = new THREE.Mesh(geometry11_r, material11_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh11_r);
+        // 位置
+        mesh11_r.position.set(-15, 50, 115);
+        mesh11_r.rotation.set(Math.PI/2, 0, 0);
+
+
+        /* ほっぺ(右②)を作成 */
+        const geometry11_rr = new THREE.CylinderGeometry(7, 7, 2, 20);
+        // マテリアルを作成
+        const material11_rr = new THREE.MeshBasicMaterial({color: 0xffe4e1});
+        // メッシュを作成
+        const mesh11_rr = new THREE.Mesh(geometry11_rr, material11_rr);
+        // 3D空間にメッシュを追加
+        scene.add(mesh11_rr);
+        // 位置
+        mesh11_rr.position.set(-15, 47, 115);
+        mesh11_rr.rotation.set(Math.PI/2, 0, 0);
+
+
+        /* 足(左)を作成 */
+        const geometry12_l = new THREE.CylinderGeometry(22, 25, 10, 30);
+        // 画像を読み込む
+        const loader12_l = new THREE.TextureLoader();
+        const texture12_l = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material12_l = new THREE.MeshBasicMaterial({
+          map: texture12_l
+        });
+        // メッシュを作成
+        const mesh12_l = new THREE.Mesh(geometry12_l, material12_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh12_l);
+        // 位置
+        mesh12_l.position.set(165, -50, 112);
+        mesh12_l.rotation.set(1.57, 0, -0.2);
+
+
+        /* 足(右)を作成 */
+        const geometry12_r = new THREE.CylinderGeometry(22, 25, 10, 30);
+        // 画像を読み込む
+        const loader12_r = new THREE.TextureLoader();
+        const texture12_r = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material12_r = new THREE.MeshBasicMaterial({
+          map: texture12_r
+        });
+        // メッシュを作成
+        const mesh12_r = new THREE.Mesh(geometry12_r, material12_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh12_r);
+        // 位置
+        mesh12_r.position.set(165, 50, 112);
+        mesh12_r.rotation.set(1.57, 0, -0.2);
+
+
+        /* 左手(下側)を作成 */
+        const geometry13_l = new THREE.CylinderGeometry( 15, 13, 10, 10, 5, false, 0, Math.PI );
+        // 画像を読み込む
+        const loader13_l = new THREE.TextureLoader();
+        const texture13_l = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material13_l = new THREE.MeshBasicMaterial({
+          map: texture13_l
+        });
+        // メッシュを作成
+        const mesh13_l = new THREE.Mesh(geometry13_l, material13_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh13_l);
+        // 位置
+        mesh13_l.position.set(8, -90, 105);
+        mesh13_l.rotation.set(1.57, 0.5, 1.57);
+
+
+        /* 左手(上側)を作成 */
+        const geometry13_ll = new THREE.SphereGeometry(16, 20, 20, 0, 2*Math.PI, 0, Math.PI/2);
+        // 画像を読み込む
+        const loader13_ll = new THREE.TextureLoader();
+        const texture13_ll = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material13_ll = new THREE.MeshBasicMaterial({
+          map: texture13_ll
+        });
+        // メッシュを作成
+        const mesh13_ll = new THREE.Mesh(geometry13_ll, material13_ll);
+        // 3D空間にメッシュを追加
+        scene.add(mesh13_ll);
+        // 位置
+        mesh13_ll.position.set(0, -95, 105);
+        mesh13_ll.rotation.set(1.57, 0, 0);
+
+
+        /* 右手(下側)を作成 */
+        const geometry13_r = new THREE.CylinderGeometry( 15, 13, 8, 10, 8, false, 0, Math.PI );
+        // 画像を読み込む
+        const loader13_r = new THREE.TextureLoader();
+        const texture13_r = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material13_r = new THREE.MeshBasicMaterial({
+          map: texture13_r
+        });
+        // メッシュを作成
+        const mesh13_r = new THREE.Mesh(geometry13_r, material13_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh13_r);
+        // 位置
+        mesh13_r.position.set(2, 94, 105);
+        mesh13_r.rotation.set(1.57, -0.55, 1.57);
+
+
+        /* 右手(上側)を作成 */
+        const geometry13_rr = new THREE.SphereGeometry(15, 20, 20, Math.PI*(4/3), Math.PI, 0, Math.PI/2);
+        // 画像を読み込む
+        const loader13_rr = new THREE.TextureLoader();
+        const texture13_rr = loader.load('images/kamaboko.jpg');
+        // マテリアルにテクスチャーを設定
+        const material13_rr = new THREE.MeshBasicMaterial({
+          map: texture13_rr
+        });
+        // メッシュを作成
+        const mesh13_rr = new THREE.Mesh(geometry13_rr, material13_rr);
+        // 3D空間にメッシュを追加
+        scene.add(mesh13_rr);
+        // 位置
+        mesh13_rr.position.set(0, 95, 105);
+        mesh13_rr.rotation.set(1.57, 0, 0);
+
+
+        /* トマト(右①)を作成 */
+        const geometry14_r = new THREE.CylinderGeometry(35, 35, 8, 30);
+        // 画像を読み込む
+        const loader14_r = new THREE.TextureLoader();
+        const texture14_r = loader.load('images/tomato.jpg');
+        // マテリアルにテクスチャーを設定
+        const material14_r = new THREE.MeshBasicMaterial({
+          map: texture14_r
+        });
+        // メッシュを作成
+        const mesh14_r = new THREE.Mesh(geometry14_r, material14_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh14_r);
+        // 位置
+        mesh14_r.position.set(-120, 100, 105);
+        mesh14_r.rotation.set(1.57, 0, 0.05);
+
+
+        /* トマト(右②)を作成 */
+        const geometry14_rr = new THREE.CylinderGeometry(35, 35, 8, 30);
+        // 画像を読み込む
+        const loader14_rr = new THREE.TextureLoader();
+        const texture14_rr = loader.load('images/tomato.jpg');
+        // マテリアルにテクスチャーを設定
+        const material14_rr = new THREE.MeshBasicMaterial({
+          map: texture14_rr
+        });
+        // メッシュを作成
+        const mesh14_rr = new THREE.Mesh(geometry14_rr, material14_rr);
+        // 3D空間にメッシュを追加
+        scene.add(mesh14_rr);
+        // 位置
+        mesh14_rr.position.set(-80, 120, 110);
+        mesh14_rr.rotation.set(1.57, 0, -0.1);
+
+
+        /* トマト(左①)を作成 */
+        const geometry14_l = new THREE.CylinderGeometry(35, 35, 8, 30);
+        // 画像を読み込む
+        const loader14_l = new THREE.TextureLoader();
+        const texture14_l = loader.load('images/tomato.jpg');
+        // マテリアルにテクスチャーを設定
+        const material14_l = new THREE.MeshBasicMaterial({
+          map: texture14_l
+        });
+        // メッシュを作成
+        const mesh14_l = new THREE.Mesh(geometry14_l, material14_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh14_l);
+        // 位置
+        mesh14_l.position.set(120, -130, 105);
+        mesh14_l.rotation.set(1.57, 0, 0);
+
+
+        /* トマト(左②)を作成 */
+        const geometry14_ll = new THREE.CylinderGeometry(35, 35, 8, 30);
+        // 画像を読み込む
+        const loader14_ll = new THREE.TextureLoader();
+        const texture14_ll = loader.load('images/tomato.jpg');
+        // マテリアルにテクスチャーを設定
+        const material14_ll = new THREE.MeshBasicMaterial({
+          map: texture14_ll
+        });
+        // メッシュを作成
+        const mesh14_ll = new THREE.Mesh(geometry14_ll, material14_ll);
+        // 3D空間にメッシュを追加
+        scene.add(mesh14_ll);
+        // 位置
+        mesh14_ll.position.set(160, -100, 105);
+        mesh14_ll.rotation.set(1.57, 0, -0.13);
+
+
+        /* アスパラガス①(くき)を作成 */
+        const geometry15_l = new THREE.CylinderGeometry(10, 10, 75, 10, 10, false, 0, Math.PI);
+        // 画像を読み込む
+        const loader15_l = new THREE.TextureLoader();
+        const texture15_l = loader.load('images/asupara-kuki.jpg');
+        // マテリアルにテクスチャーを設定
+        const material15_l = new THREE.MeshBasicMaterial({
+          map: texture15_l
+        });
+        // メッシュを作成
+        const mesh15_l = new THREE.Mesh(geometry15_l, material15_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh15_l);
+        // 位置
+        mesh15_l.position.set(-65, -120, 102);
+        mesh15_l.rotation.set(1.57, 0.45, 1.57);
+
+
+        /* アスパラガス①(ふさ)を作成 */
+        const geometry15_ll = new THREE.CylinderGeometry(3, 10, 70, 10, 10, false, 0, Math.PI);
+        // 画像を読み込む
+        const loader15_ll = new THREE.TextureLoader();
+        const texture15_ll = loader.load('images/asupara-fusa.jpg');
+        // マテリアルにテクスチャーを設定
+        const material15_ll = new THREE.MeshBasicMaterial({
+          map: texture15_ll
+        });
+        // メッシュを作成
+        const mesh15_ll = new THREE.Mesh(geometry15_ll, material15_ll);
+        // 3D空間にメッシュを追加
+        scene.add(mesh15_ll);
+        // 位置
+        mesh15_ll.position.set(-130, -152, 102);
+        mesh15_ll.rotation.set(1.57, 0.45, 1.57);
+
+
+        /* アスパラガス②(くき)を作成 */
+        const geometry15_r = new THREE.CylinderGeometry(10, 10, 75, 10, 10, false, 0, Math.PI);
+        // 画像を読み込む
+        const loader15_r = new THREE.TextureLoader();
+        const texture15_r = loader.load('images/asupara-kuki.jpg');
+        // マテリアルにテクスチャーを設定
+        const material15_r = new THREE.MeshBasicMaterial({
+          map: texture15_r
+        });
+        // メッシュを作成
+        const mesh15_r = new THREE.Mesh(geometry15_r, material15_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh15_r);
+        // 位置
+        mesh15_r.position.set(-95, -110, 102);
+        mesh15_r.rotation.set(1.57, 0.45, 1.57);
+
+
+        /* アスパラガス②(ふさ)を作成 */
+        const geometry15_rr = new THREE.CylinderGeometry(3, 10, 70, 10, 10, false, 0, Math.PI);
+        // 画像を読み込む
+        const loader15_rr = new THREE.TextureLoader();
+        const texture15_rr = loader.load('images/asupara-fusa.jpg');
+        // マテリアルにテクスチャーを設定
+        const material15_rr = new THREE.MeshBasicMaterial({
+          map: texture15_rr
+        });
+        // メッシュを作成
+        const mesh15_rr = new THREE.Mesh(geometry15_rr, material15_rr);
+        // 3D空間にメッシュを追加
+        scene.add(mesh15_rr);
+        // 位置
+        mesh15_rr.position.set(-160, -142, 102);
+        mesh15_rr.rotation.set(1.57, 0.45, 1.57);
+
+
+        /* くまの左耳を作成 */
+        const geometry16_l = new THREE.CylinderGeometry(13, 13, 10, 30);
+        // 画像を読み込む
+        const loader16_l = new THREE.TextureLoader();
+        const texture16_l = loader.load('images/cheese.jpg');
+        // マテリアルにテクスチャーを設定
+        const material16_l = new THREE.MeshBasicMaterial({
+          map: texture16_l
+        });
+        // メッシュを作成
+        const mesh16_l = new THREE.Mesh(geometry16_l, material16_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh16_l);
+        // 位置
+        mesh16_l.position.set(50, -40, 115);
+        mesh16_l.rotation.set(1.57, 0, 0);
+
+
+        /* くまの右耳を作成 */
+        const geometry16_r = new THREE.CylinderGeometry(13, 13, 10, 30);
+        // 画像を読み込む
+        const loader16_r = new THREE.TextureLoader();
+        const texture16_r = loader.load('images/cheese.jpg');
+        // マテリアルにテクスチャーを設定
+        const material16_r = new THREE.MeshBasicMaterial({
+          map: texture16_r
+        });
+        // メッシュを作成
+        const mesh16_r = new THREE.Mesh(geometry16_r, material16_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh16_r);
+        // 位置
+        mesh16_r.position.set(40, 30, 115);
+        mesh16_r.rotation.set(1.57, 0, 0);
+
+
+        /* くまの左目を作成 */
+        const geometry17_l = new THREE.CircleGeometry(3, 10);
+        // 画像を読み込む
+        const loader17_l = new THREE.TextureLoader();
+        const texture17_l = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material17_l = new THREE.MeshBasicMaterial({
+          map: texture17_l
+        });
+        // メッシュを作成
+        const mesh17_l = new THREE.Mesh(geometry17_l, material17_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh17_l);
+        // 位置
+        mesh17_l.position.set(65, -15, 137);
+        mesh17_l.rotation.set(0, -0.2, -1.57);
+
+
+        /* くまの右目を作成 */
+        const geometry17_r = new THREE.CircleGeometry(3, 10);
+        // 画像を読み込む
+        const loader17_r = new THREE.TextureLoader();
+        const texture17_r = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material17_r = new THREE.MeshBasicMaterial({
+          map: texture17_r
+        });
+        // メッシュを作成
+        const mesh17_r = new THREE.Mesh(geometry17_r, material17_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh17_r);
+        // 位置
+        mesh17_r.position.set(61, 15, 136);
+        mesh17_r.rotation.set(0, -0.2, -1.57);
+
+
+        /* くまの口(左側)を作成 */
+        const geometry18_l = new THREE.CircleGeometry(4, 10);
+        // 画像を読み込む
+        const loader18_l = new THREE.TextureLoader();
+        const texture18_l = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material18_l = new THREE.MeshBasicMaterial({
+          map: texture18_l
+        });
+        // メッシュを作成
+        const mesh18_l = new THREE.Mesh(geometry18_l, material18_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh18_l);
+        // 位置
+        mesh18_l.position.set(69, -0.7, 139);
+        mesh18_l.rotation.set(0, -0.2, -1.57);
+
+
+        /* くまの口(右側)を作成 */
+        const geometry18_r = new THREE.CircleGeometry(4, 10);
+        // 画像を読み込む
+        const loader18_r = new THREE.TextureLoader();
+        const texture18_r = loader.load('images/nori.png');
+        // マテリアルにテクスチャーを設定
+        const material18_r = new THREE.MeshBasicMaterial({
+          map: texture18_r
+        });
+        // メッシュを作成
+        const mesh18_r = new THREE.Mesh(geometry18_r, material18_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh18_r);
+        // 位置
+        mesh18_r.position.set(68.8, 0.7, 139);
+        mesh18_r.rotation.set(0, -0.2, -1.57);
+
+
+        /* くまの左手を作成 */
+        const geometry19_l = new THREE.CylinderGeometry(8, 8, 5, 30);
+        // 画像を読み込む
+        const loader19_l = new THREE.TextureLoader();
+        const texture19_l = loader.load('images/cheese.jpg');
+        // マテリアルにテクスチャーを設定
+        const material19_l = new THREE.MeshBasicMaterial({
+          map: texture19_l
+        });
+        // メッシュを作成
+        const mesh19_l = new THREE.Mesh(geometry19_l, material19_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh19_l);
+        // 位置
+        mesh19_l.position.set(90, -7, 140);
+        mesh19_l.rotation.set(1.57, 0, -0.2);
+
+
+        /* くまの右手を作成 */
+        const geometry19_r = new THREE.CylinderGeometry(8, 8, 5, 30);
+        // 画像を読み込む
+        const loader19_r = new THREE.TextureLoader();
+        const texture19_r = loader.load('images/cheese.jpg');
+        // マテリアルにテクスチャーを設定
+        const material19_r = new THREE.MeshBasicMaterial({
+          map: texture19_r
+        });
+        // メッシュを作成
+        const mesh19_r = new THREE.Mesh(geometry19_r, material19_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh19_r);
+        // 位置
+        mesh19_r.position.set(88, 10, 140);
+        mesh19_r.rotation.set(1.57, 0, -0.2);
+
+
+        /* くまの左足を作成 */
+        const geometry20_l = new THREE.CylinderGeometry(8, 8, 5, 30);
+        // 画像を読み込む
+        const loader20_l = new THREE.TextureLoader();
+        const texture20_l = loader.load('images/cheese.jpg');
+        // マテリアルにテクスチャーを設定
+        const material20_l = new THREE.MeshBasicMaterial({
+          map: texture20_l
+        });
+        // メッシュを作成
+        const mesh20_l = new THREE.Mesh(geometry20_l, material20_l);
+        // 3D空間にメッシュを追加
+        scene.add(mesh20_l);
+        // 位置
+        mesh20_l.position.set(120, -30, 120);
+        mesh20_l.rotation.set(1.57, 0, -0.6);
+
+
+        /* くまの右足を作成 */
+        const geometry20_r = new THREE.CylinderGeometry(8, 8, 5, 30);
+        // 画像を読み込む
+        const loader20_r = new THREE.TextureLoader();
+        const texture20_r = loader.load('images/cheese.jpg');
+        // マテリアルにテクスチャーを設定
+        const material20_r = new THREE.MeshBasicMaterial({
+          map: texture20_r
+        });
+        // メッシュを作成
+        const mesh20_r = new THREE.Mesh(geometry20_r, material20_r);
+        // 3D空間にメッシュを追加
+        scene.add(mesh20_r);
+        // 位置
+        mesh20_r.position.set(116, 33, 120);
+        mesh20_r.rotation.set(1.57, 0, -0.6);
+
+
+        /* お皿の飾り①を作成 */
+        const geometry21_1 = new THREE.TorusKnotGeometry(10, 5, 20, 8, 2, 5, 4);
+        // マテリアルを作成
+        const material21_1 = new THREE.MeshBasicMaterial({color: 0xffa500});
+        // メッシュを作成
+        const mesh21_1 = new THREE.Mesh(geometry21_1, material21_1);
+        // 3D空間にメッシュを追加
+        scene.add(mesh21_1);
+        // 位置
+        mesh21_1.position.set(116, 220, 50);
+        mesh21_1.rotation.set(0, 0, 0);
+
+
+        /* お皿の飾り②を作成 */
+        const geometry21_2 = new THREE.TorusKnotGeometry(10, 5, 20, 8, 2, 5, 4);
+        // マテリアルを作成
+        const material21_2 = new THREE.MeshBasicMaterial({color: 0xf8e58c});
+        // メッシュを作成
+        const mesh21_2 = new THREE.Mesh(geometry21_2, material21_2);
+        // 3D空間にメッシュを追加
+        scene.add(mesh21_2);
+        // 位置
+        mesh21_2.position.set(-50, 200, 50);
+        mesh21_2.rotation.set(0, 0, 0);
+
+
+        /* お皿の飾り③を作成 */
+        const geometry21_3 = new THREE.TorusKnotGeometry(10, 5, 20, 8, 2, 5, 4);
+        // マテリアルを作成
+        const material21_3 = new THREE.MeshBasicMaterial({color: 0xffa500});
+        // メッシュを作成
+        const mesh21_3 = new THREE.Mesh(geometry21_3, material21_3);
+        // 3D空間にメッシュを追加
+        scene.add(mesh21_3);
+        // 位置
+        mesh21_3.position.set(-250, 0, 50);
+        mesh21_3.rotation.set(0, 0, 0);
+
+
+        /* お皿の飾り④を作成 */
+        const geometry21_4 = new THREE.TorusKnotGeometry(10, 5, 20, 8, 2, 5, 4);
+        // マテリアルを作成
+        const material21_4 = new THREE.MeshBasicMaterial({color: 0xf8e58c});
+        // メッシュを作成
+        const mesh21_4 = new THREE.Mesh(geometry21_4, material21_4);
+        // 3D空間にメッシュを追加
+        scene.add(mesh21_4);
+        // 位置
+        mesh21_4.position.set(-80, -220, 50);
+        mesh21_4.rotation.set(0, 0, 0);
+
+
+        /* お皿の飾り⑤を作成 */
+        const geometry21_5 = new THREE.TorusKnotGeometry(10, 5, 20, 8, 2, 5, 4);
+        // マテリアルを作成
+        const material21_5 = new THREE.MeshBasicMaterial({color: 0xffa500});
+        // メッシュを作成
+        const mesh21_5 = new THREE.Mesh(geometry21_5, material21_5);
+        // 3D空間にメッシュを追加
+        scene.add(mesh21_5);
+        // 位置
+        mesh21_5.position.set(76, -200, 50);
+        mesh21_5.rotation.set(0, 0, 0);
+
+
+        /* お皿の飾り⑥を作成 */
+        const geometry21_6 = new THREE.TorusKnotGeometry(10, 5, 20, 8, 2, 5, 4);
+        // マテリアルを作成
+        const material21_6 = new THREE.MeshBasicMaterial({color: 0xf8e58c});
+        // メッシュを作成
+        const mesh21_6 = new THREE.Mesh(geometry21_6, material21_6);
+        // 3D空間にメッシュを追加
+        scene.add(mesh21_6);
+        // 位置
+        mesh21_6.position.set(230, 0, 50);
+        mesh21_6.rotation.set(0, 0, 0);
+
+
+  /* ------------------------------------------------------------------------------ */
+
+
+        /* カップの底を作成 */
+        const geometry22_d = new THREE.SphereGeometry(60, 40, 40, 0, 2*Math.PI, 0, Math.PI/2);
+        // 画像を読み込む
+        const loader22_d = new THREE.TextureLoader();
+        const texture22_d = loader.load('images/cup.jpg');
+        // マテリアルにテクスチャーを設定
+        const material22_d = new THREE.MeshBasicMaterial({
+          map: texture22_d
+        });
+        // メッシュを作成
+        const mesh22_d = new THREE.Mesh(geometry22_d, material22_d);
+        // 3D空間にメッシュを追加
+        scene.add(mesh22_d);
+        // 位置
+        mesh22_d.position.set(-200, 350, 60);
+        mesh22_d.rotation.set(Math.PI*(3/2), 0, 0);
+
+
+        /* カップの上部(外側)を作成 */
+        const geometry22_o = new THREE.CylinderGeometry(80, 60, 70, 30, 1, true);
+        // 画像を読み込む
+        const loader22_o = new THREE.TextureLoader();
+        const texture22_o = loader.load('images/cup.jpg');
+        // マテリアルにテクスチャーを設定
+        const material22_o = new THREE.MeshBasicMaterial({
+          map: texture22_o
+        });
+        // メッシュを作成
+        const mesh22_o = new THREE.Mesh(geometry22_o, material22_o);
+        // 3D空間にメッシュを追加
+        scene.add(mesh22_o);
+        // 位置
+        mesh22_o.position.set(-200, 350, 90);
+        mesh22_o.rotation.set(Math.PI/2, 0, 0);
+
+
+        /* カップの上部(内側)を作成 */
+        const geometry22_i = new THREE.CylinderGeometry(70, 50, 70, 30, 1, false);
+        // 画像を読み込む
+        const loader22_i = new THREE.TextureLoader();
+        const texture22_i = loader.load('images/cup.jpg');
+        // マテリアルにテクスチャーを設定
+        const material22_i = new THREE.MeshBasicMaterial({
+          map: texture22_i
+        });
+        // メッシュを作成
+        const mesh22_i = new THREE.Mesh(geometry22_i, material22_i);
+        // 3D空間にメッシュを追加
+        scene.add(mesh22_i);
+        // 位置
+        mesh22_i.position.set(-200, 350, 90);
+        mesh22_i.rotation.set(Math.PI/2, 0, 0);
+
+
+        /* カップの上部(縁)を作成 */
+        const geometry22_e = new THREE.TorusGeometry(72, 7, 40, 40);
+        // 画像を読み込む
+        const loader22_e = new THREE.TextureLoader();
+        const texture22_e = loader.load('images/cup.jpg');
+        // マテリアルにテクスチャーを設定
+        const material22_e = new THREE.MeshBasicMaterial({
+          map: texture22_e
+        });
+        // メッシュを作成
+        const mesh22_e = new THREE.Mesh(geometry22_e, material22_e);
+        // 3D空間にメッシュを追加
+        scene.add(mesh22_e);
+        // 位置
+        mesh22_e.position.set(-200, 350, 125);
+        mesh22_e.rotation.set(0, 0, 0);
+
+
+        /* ラテアートを作成 */
+        const geometry23 = new THREE.CircleGeometry(70, 40);
+        // 画像を読み込む
+        const loader23 = new THREE.TextureLoader();
+        const texture23 = loader.load('images/latte.jpg');
+        // マテリアルにテクスチャーを設定
+        const material23 = new THREE.MeshBasicMaterial({
+          map: texture23
+        });
+        // メッシュを作成
+        const mesh23 = new THREE.Mesh(geometry23, material23);
+        // 3D空間にメッシュを追加
+        scene.add(mesh23);
+        // 位置
+        mesh23.position.set(-200, 350, 130);
+        mesh23.rotation.set(0, 0, Math.PI/2);
+
+
+        /* カップの取っ手を作成 */
+        const geometry24 = new THREE.TorusGeometry(30, 8, 40, 40, Math.PI+0.2);
+        // 画像を読み込む
+        const loader24 = new THREE.TextureLoader();
+        const texture24 = loader.load('images/cup.jpg');
+        // マテリアルにテクスチャーを設定
+        const material24 = new THREE.MeshBasicMaterial({
+          map: texture24
+        });
+        // メッシュを作成
+        const mesh24 = new THREE.Mesh(geometry24, material24);
+        // 3D空間にメッシュを追加
+        scene.add(mesh24);
+        // 位置
+        mesh24.position.set(-200, 410, 70);
+        mesh24.rotation.set(-0.3, Math.PI/2, 0);
+
+
+        /* ランチョンマットを作成 */
+        const geometry25 = new THREE.PlaneGeometry(600, 900);
+        // 画像を読み込む
+        const loader25 = new THREE.TextureLoader();
+        const texture25 = loader.load('images/mat.png');
+        // マテリアルにテクスチャーを設定
+        const material25 = new THREE.MeshBasicMaterial({
+          map: texture25
+        });
+        // メッシュを作成
+        const mesh25 = new THREE.Mesh(geometry25, material25);
+        // 3D空間にメッシュを追加
+        scene.add(mesh25);
+        // 位置
+        mesh25.position.set(0, 25, 2);
+        mesh25.rotation.set(0, 0, 0);
+
+
+  /* ------------------------------------------------------------------------------ */
+
+
+        tick();
+
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // レンダリング
+          renderer.render(scene, camera);
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+  </body>
+</html>
